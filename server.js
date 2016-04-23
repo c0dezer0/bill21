@@ -8,16 +8,21 @@ var randomstring = require("randomstring");
 var MongoClient = require('mongodb').MongoClient;
 var config = require('./config');
 
-fs.readFile('hotels-delhi-formated.json', function(err, data) {
-    var hotels = JSON.parse(data);
-    MongoClient.connect(config.url, function(err, db){
-    	console.log(err);
-    	db.collection('hotels').insert(hotels, function(err){
-    		console.log("hotels inserted into db");
-    	})
+app.get('/insert', function(req, res) {
+    fs.readFile('hotels-delhi-formated.json', function(err, data) {
+        var hotels = JSON.parse(data);
+        MongoClient.connect(config.db_url, function(err, db) {
+            console.log(err);
+            db.collection('hotels').insert(hotels, function(err) {
+                res.send("hotels inserted into db");
+            })
+        })
     })
 })
+app.get('/', function(req, res){
+	res.send("Bitch Please!");
+})
 
-app.listen(9000, function() {
+app.listen(config.port, function() {
     console.log("Server running on port : 9000");
 })
