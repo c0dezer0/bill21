@@ -11,5 +11,7 @@ var url = 'mongodb://' + connection_string;
 
 module.exports = {
     db_url: url,
-    port: process.env.OPENSHIFT_NODEJS_PORT || "9000"
+    port: process.env.OPENSHIFT_NODEJS_PORT || "9000",
+    ip_address : process.env.OPENSHIFT_NODEJS_IP || 'localhost'
+ 
 }

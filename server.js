@@ -23,6 +23,6 @@ app.get('/', function(req, res){
 	res.send("Bitch Please!");
 })
 
-app.listen(config.port, function() {
+app.listen(config.port,config.ip_address, function() {
     console.log("Server running on port : 9000");
 })
