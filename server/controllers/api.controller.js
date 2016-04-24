@@ -3,6 +3,7 @@ var config = require('../../config');
 var fs = require('fs');
 console.log(config);
 module.exports = {
+	
     insert: function(req, res) {
         fs.readFile('database/hotels-delhi-formated.json', function(err, data) {
             if (err) {
