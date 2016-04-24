@@ -19,7 +19,7 @@ app.get('/insert', function(req, res) {
                 if (err) {
                     res.send(err);
                 } else
-                    db.collection('hotels').delete({}).insert(hotels, function(err) {
+                    db.collection('hotels').insert(hotels, function(err) {
                         db.close();
                         res.send("hotels inserted into db " + err);
                     })
