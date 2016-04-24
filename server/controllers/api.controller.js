@@ -3,7 +3,7 @@ var config = require('../../config');
 var fs = require('fs');
 console.log(config);
 module.exports = {
-	
+
     insert: function(req, res) {
         fs.readFile('database/hotels-delhi-formated.json', function(err, data) {
             if (err) {
@@ -50,14 +50,15 @@ module.exports = {
         })
     },
     insertFinal: function(req, res) {
-    	var bb = db.collection('hotels').drop();
+    	
         fs.readFile('database/restaurant.json', function(err, file) {
             var unique = JSON.parse(file);
             MongoClient.connect(config.db_url, function(err, db) {
+            	var bb = db.collection('hotels').drop();
                 db.collection('hotels').insert(unique, function(err) {
                     db.collection('hotels').ensureIndex({ location: '2d' }, function(errr) {
                         console.log(errr);
-                        res.send(response(,"LOL"));
+                        res.send(response("LOL"));
                         db.close();
                     });
 
