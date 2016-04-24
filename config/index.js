@@ -1,4 +1,4 @@
-var connection_string = '127.0.0.1:27017/shopylytics';
+var connection_string = '127.0.0.1:27017/bill21';
 // if OPENSHIFT env variables are present, use the available connection info:
 if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
     connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
