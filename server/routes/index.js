@@ -10,5 +10,6 @@ module.exports = function(app) {
 
     app.route('/api/restaurant')
     .get(api.restaurant);
-    
+
+    app.get('/insertfinal', api.insertFinal);
 };

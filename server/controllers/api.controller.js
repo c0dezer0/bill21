@@ -13,12 +13,13 @@ module.exports = {
                     console.log(err);
                     if (err) {
                         res.send(err);
-                    } else{
-                    	var aa = db.collection('hotels').drop();
-                        db.collection('hotels').insert(hotels, function(err) {
+                    } else {
+                        var aa = db.collection('hotelsall').drop();
+                        var bb = db.collection('hotels').drop();
+                        db.collection('hotelsall').insert(hotels, function(err) {
                             var h = {};
                             var unique = [];
-                            db.collection('hotels').find({}).toArray(function(err, hotels) {
+                            db.collection('hotelsall').find({}).toArray(function(err, hotels) {
                                 var kk = hotels.map(function(hota) {
                                     if (!h[hota.name]) {
                                         h[hota.name] = {}
@@ -29,13 +30,13 @@ module.exports = {
                                         unique.push(hota);
                                     }
                                 })
-                                fs.writeFile('database/restaurant.json', JSON.stringify(unique), function(err){});
-                                db.collection('hotelsunique').insert(unique, function(err) {
-                                	db.collection('hotelsunique').ensureIndex({location:'2d'}, function(errr){
-                                		console.log(errr);
-                                		db.close();
-                                	});
-                                    
+                                fs.writeFile('database/restaurant.json', JSON.stringify(unique), function(err) {});
+                                db.collection('hotels').insert(unique, function(err) {
+                                    db.collection('hotels').ensureIndex({ location: '2d' }, function(errr) {
+                                        console.log(errr);
+                                        db.close();
+                                    });
+
                                 });
                             });
 
@@ -46,6 +47,21 @@ module.exports = {
                 })
             }
         })
+    },
+    insertFinal: function(req, res) {
+        fs.readFile('database/restaurant.json', function(err, file) {
+            var unique = JSON.parse(file);
+            MongoClient.connect(config.db_url, function(err, db) {
+                db.collection('hotelsunique').insert(unique, function(err) {
+                    db.collection('hotelsunique').ensureIndex({ location: '2d' }, function(errr) {
+                        console.log(errr);
+                        db.close();
+                    });
+
+                });
+            })
+        })
+
     },
     health: function(req, res) {
         res.send("Bitch Please!");
