@@ -49,12 +49,14 @@ module.exports = {
         })
     },
     insertFinal: function(req, res) {
+    	var bb = db.collection('hotels').drop();
         fs.readFile('database/restaurant.json', function(err, file) {
             var unique = JSON.parse(file);
             MongoClient.connect(config.db_url, function(err, db) {
-                db.collection('hotelsunique').insert(unique, function(err) {
-                    db.collection('hotelsunique').ensureIndex({ location: '2d' }, function(errr) {
+                db.collection('hotels').insert(unique, function(err) {
+                    db.collection('hotels').ensureIndex({ location: '2d' }, function(errr) {
                         console.log(errr);
+                        res.send(response(,"LOL"));
                         db.close();
                     });
 
@@ -79,7 +81,7 @@ module.exports = {
             if (type == 'all') {
                 MongoClient.connect(config.db_url, function(err, db) {
                     if (err) { res.send(response(err)); } else {
-                        db.collection('hotelsunique')
+                        db.collection('hotels')
                             .find({ location: { $near: [Number(body.lng), Number(body.lat)] } })
                             .skip((page - 1) * limit)
                             .limit(limit)
