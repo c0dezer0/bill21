@@ -9,11 +9,12 @@ var MongoClient = require('mongodb').MongoClient;
 var config = require('./config');
 
 app.get('/insert', function(req, res) {
-    fs.readFile('hotels-delhi-formated.json', function(err, data) {
+    fs.readFile('database/hotels-delhi-formated.json', function(err, data) {
         var hotels = JSON.parse(data);
         MongoClient.connect(config.db_url, function(err, db) {
             console.log(err);
             db.collection('hotels').insert(hotels, function(err) {
+            	db.close();
                 res.send("hotels inserted into db");
             })
         })
