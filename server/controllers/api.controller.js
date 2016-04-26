@@ -50,11 +50,11 @@ module.exports = {
         })
     },
     insertFinal: function(req, res) {
-    	
+
         fs.readFile('database/restaurant.json', function(err, file) {
             var unique = JSON.parse(file);
             MongoClient.connect(config.db_url, function(err, db) {
-            	var bb = db.collection('hotels').drop();
+                var bb = db.collection('hotels').drop();
                 db.collection('hotels').insert(unique, function(err) {
                     db.collection('hotels').ensureIndex({ location: '2d' }, function(errr) {
                         console.log(errr);
